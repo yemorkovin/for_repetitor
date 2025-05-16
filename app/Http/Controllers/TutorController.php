@@ -31,16 +31,17 @@ class TutorController extends Controller
     public function saveProfile(Request $request)
     {
         $user = Auth::user();
-        //print_r($request->all());
-        //exit;
+        
         $request->validate([
             'about' => 'required|string|max:2000',
             'experience_years' => 'required|integer|min:0',
             'hourly_rate' => 'required|numeric|min:0',
             'education_level' => 'required|string',
             'video_presentation' => 'nullable|url',
-            'subjects' => 'required|array',
-            //'subjects.*' => 'exists:subjects,id',
+            'subjects' => 'sometimes|required_without:new_subjects|array',
+            'subjects.*' => 'sometimes|integer|exists:subjects,id',
+            'new_subjects' => 'sometimes|required_without:subjects|array',
+            'new_subjects.*' => 'sometimes|string|distinct|min:2',
             'educations' => 'nullable|array',
             //'educations.*.institution' => 'required_with:educations|string',
             //'educations.*.degree' => 'required_with:educations|string',

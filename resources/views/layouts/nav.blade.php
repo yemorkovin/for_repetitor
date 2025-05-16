@@ -16,7 +16,7 @@
                 <!-- Публичные ссылки -->
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('tutors.public.show') ? 'active' : '' }}" 
-                       href="{{ route('tutors.public.show', 1) }}"> <!-- Пример ID, нужно динамическое решение -->
+                       href="{{ route('tutors.index') }}"> <!-- Пример ID, нужно динамическое решение -->
                         Репетиторы
                     </a>
                 </li>

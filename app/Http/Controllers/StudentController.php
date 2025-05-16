@@ -13,37 +13,38 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-        $query = TutorProfile::query()->with(['user', 'subjects', 'reviews'])
+       
+       $query = TutorProfile::query()->with(['user', 'subjects', 'reviews'])
             ->where('is_approved', true);
 
         // Фильтрация по предмету
-        if ($request->has('subject')) {
+        if ($request->filled('subject')) {
             $query->whereHas('subjects', function($q) use ($request) {
                 $q->where('id', $request->subject);
             });
         }
 
         // Фильтрация по цене
-        if ($request->has('price_from')) {
-            $query->where('hourly_rate', '>=', $request->price_from);
+        if ($request->filled('price_from') && is_numeric($request->price_from)) {
+            $query->where('hourly_rate', '>=', (float)$request->price_from);
         }
 
-        if ($request->has('price_to')) {
-            $query->where('hourly_rate', '<=', $request->price_to);
+        if ($request->filled('price_to') && is_numeric($request->price_to)) {
+            $query->where('hourly_rate', '<=', (float)$request->price_to);
         }
 
         // Фильтрация по опыту
-        if ($request->has('experience')) {
-            $query->where('experience_years', '>=', $request->experience);
+        if ($request->filled('experience') && is_numeric($request->experience)) {
+            $query->where('experience_years', '>=', (int)$request->experience);
         }
 
         // Фильтрация по уровню образования
-        if ($request->has('education_level')) {
+        if ($request->filled('education_level')) {
             $query->where('education_level', $request->education_level);
         }
 
         // Сортировка
-        if ($request->has('sort')) {
+        if ($request->filled('sort')) {
             switch ($request->sort) {
                 case 'price_asc':
                     $query->orderBy('hourly_rate', 'asc');
@@ -64,7 +65,7 @@ class StudentController extends Controller
 
         $tutors = $query->paginate(10);
         $subjects = Subject::all();
-
+        
         return view('student.tutors.index', compact('tutors', 'subjects'));
     }
 

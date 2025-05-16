@@ -36,12 +36,12 @@ Route::middleware(['auth'])->prefix('tutor')->name('tutor.')->group(function () 
     Route::get('/profile', [TutorController::class, 'showProfileForm'])->name('profile');
     Route::post('/profile', [TutorController::class, 'saveProfile'])->name('profile.save');
 });
-
+    Route::get('/tutors', [StudentController::class, 'index'])->name('tutors.index');
+    Route::get('/tutors/{tutor}', [StudentController::class, 'show'])->name('tutors.show');
 // Ученики
 Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->group(function () {
     // Поиск репетиторов
-    Route::get('/tutors', [StudentController::class, 'index'])->name('tutors.index');
-    Route::get('/tutors/{tutor}', [StudentController::class, 'show'])->name('tutors.show');
+   
     
     // Взаимодействие с репетиторами
     Route::post('/tutors/{tutor}/contact', [StudentController::class, 'contact'])->name('tutors.contact');

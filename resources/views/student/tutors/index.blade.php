@@ -104,7 +104,7 @@
                                     <div class="card-body h-100 d-flex flex-column">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <h5 class="card-title mb-2">
-                                                <a href="{{ route('tutors.show', $tutor->id) }}" class="text-decoration-none">
+                                                <a href="tutors/{{ $tutor->id }}" class="text-decoration-none">
                                                     {{ $tutor->user->name }}
                                                 </a>
                                             </h5>
